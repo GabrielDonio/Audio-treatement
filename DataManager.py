@@ -2,6 +2,7 @@ import numpy as np
 import librosa
 import matplotlib.pyplot as plt
 import soundfile as sf
+import scipy.signal as sig
 
 class DataManager:
     def __init__(self,filepath):
@@ -43,8 +44,29 @@ class DataManager:
         
         plt.tight_layout()
         plt.show()
+    @staticmethod
+    def spectrogram(signal, sample_rate, n_fft=2048, hop_length=512):
+        """Affiche le spectrogramme d'un signal audio"""
+        plt.figure(figsize=(10, 6))
+        
+        # Add small constant to avoid log(0)
+        plt.specgram(signal, NFFT=n_fft, Fs=sample_rate, noverlap=hop_length, 
+                     scale='dB', mode='magnitude')
+        
+        plt.title("Spectrogramme")
+        plt.xlabel("Temps (s)")
+        plt.ylabel("Fréquence (Hz)")
+        plt.colorbar(label='Magnitude (dB)')
+        plt.show()
     def save_audio(self, output_path):
         """Enregistre le signal audio dans un fichier WAV"""
         sf.write(output_path, self.signal, self.sample_rate)
         print(f"Audio saved to {output_path}")
         
+def main():
+    filepath = "/Users/macos/Documents/Audio python/Data audio/705944__josefpres__guitar-tones-005-string-b-22-tone-a57.wav"
+    data_manager = DataManager(filepath)
+    # Affichage du spectrogramme
+    data_manager.spectrogram(data_manager.signal, data_manager.sample_rate)
+if __name__ == "__main__":
+    main()
