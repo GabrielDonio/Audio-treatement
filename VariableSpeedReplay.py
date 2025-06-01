@@ -6,11 +6,13 @@ import scipy.signal as sig
 import sounddevice as sd
 
 
-def process_frame_methods(signal,sr,M,N):
+def process_frame_methods1(signal,sr,M,N):
    upsampled=upsample(signal,M)
    filtered=filter_signal(upsampled,sr/2,M,N)
    downsampled=downsample(filtered,N)
    return downsampled
+def process_frame_methods2(signal,_,M,N):
+    return sig.resample(signal,int(len(signal)/(N/M)))
 def upsample(signal,M):
     M_minus_1_zeros=(M-1)*[0]
     for i in range(1,len(signal)):
@@ -45,7 +47,7 @@ N=7
 M=5 #v=N/M
 sample_rate = data.sample_rate
 signal = data.signal
-transformed=variable_speed_replay(signal,sample_rate,M,N,process_frame_methods,framelength=1024)
+transformed=variable_speed_replay(signal,sample_rate,M,N,process_frame_methods2,framelength=1024)
 play_signal(transformed, sample_rate, volume=0.5)
 data.plot_audio(transformed, sample_rate, title="Signal Transformé")
     
