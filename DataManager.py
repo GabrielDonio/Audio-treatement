@@ -39,7 +39,7 @@ class DataManager:
         plt.title("Spectre fréquentiel")
         plt.xlabel("Fréquence (Hz)")
         plt.ylabel("Magnitude")
-        plt.xlim(0, 15000)  
+        plt.xlim(1, 5000)  
         plt.grid(True)
         
         plt.tight_layout()
@@ -58,9 +58,10 @@ class DataManager:
         plt.ylabel("Fréquence (Hz)")
         plt.colorbar(label='Magnitude (dB)')
         plt.show()
-    def save_audio(self, output_path):
+    @staticmethod
+    def save_audio(signal,sr, output_path):
         """Enregistre le signal audio dans un fichier WAV"""
-        sf.write(output_path, self.signal, self.sample_rate)
+        sf.write(output_path, signal, sr)
         print(f"Audio saved to {output_path}")
         
 def main():
