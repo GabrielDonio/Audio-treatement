@@ -1,7 +1,7 @@
 import librosa
 import numpy as np
 import matplotlib.pyplot as plt
-import DataManager as dm
+import BasicTransformation.DataManager as dm
 import scipy.signal as sig
 import sounddevice as sd
 
@@ -38,16 +38,13 @@ def variable_speed_replay(signal,sr,M,N,process_frame_methods,framelength):
         processed=process_frame_methods(signal[i:end],sr,M,N)
         output=np.append(output,processed)
     return output
-def play_signal(signal,sr,volume=1.0):
-    sd.play(signal * volume, samplerate=sr)
-    sd.wait()  # Attendre la fin de la lecture
-    
+
 data= dm.DataManager("Data audio/Cymatics - Future Bass Drop Loop 6 - 160 BPM G Min.wav")
 N=7
 M=5 #v=N/M
 sample_rate = data.sample_rate
 signal = data.signal
 transformed=variable_speed_replay(signal,sample_rate,M,N,process_frame_methods2,framelength=1024)
-play_signal(transformed, sample_rate, volume=0.5)
+data.play_signal(transformed, sample_rate, volume=0.5)
 data.plot_audio(transformed, sample_rate, title="Signal Transformé")
     

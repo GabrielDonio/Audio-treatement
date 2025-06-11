@@ -2,7 +2,8 @@ import numpy as np
 import librosa
 import matplotlib.pyplot as plt
 import soundfile as sf
-import scipy.signal as sig
+import scipy.signal as si
+import sounddevice as sd
 
 class DataManager:
     def __init__(self,filepath):
@@ -63,7 +64,12 @@ class DataManager:
         """Enregistre le signal audio dans un fichier WAV"""
         sf.write(output_path, signal, sr)
         print(f"Audio saved to {output_path}")
-        
+    @staticmethod
+    def play(signal, sample_rate,volume):
+        """Joue le signal audio"""
+        sd.play(signal * volume, sample_rate)
+        sd.wait()
+
 def main():
     filepath = "/Users/macos/Documents/Audio python/Data audio/705944__josefpres__guitar-tones-005-string-b-22-tone-a57.wav"
     data_manager = DataManager(filepath)
