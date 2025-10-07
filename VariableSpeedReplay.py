@@ -40,11 +40,11 @@ def variable_speed_replay(signal,sr,M,N,process_frame_methods,framelength):
     return output
 
 data= dm.DataManager("Data audio/Cymatics - Future Bass Drop Loop 6 - 160 BPM G Min.wav")
-N=7
+N=12
 M=5 #v=N/M
 sample_rate = data.sample_rate
 signal = data.signal
 transformed=variable_speed_replay(signal,sample_rate,M,N,process_frame_methods2,framelength=1024)
-data.play_signal(transformed, sample_rate, volume=0.5)
+data.play(transformed, sample_rate, volume=0.5)
 data.plot_audio(transformed, sample_rate, title="Signal Transformé")
     
